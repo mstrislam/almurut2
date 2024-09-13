@@ -1,13 +1,12 @@
-{% extends 'base.html' %}
-{% load static %}
 
-{% block title %}Домашняя страница {% endblock %}
+{%  extends 'base.html' %}
 
 {% block content %}
     <body>
     <!--[if lt IE 8]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
+        <p>hello {{ request.user.first_name }}</p>
         <!-- Begin Body Wrapper -->
         <div class="body-wrapper">
             <!-- Begin Header Area -->
@@ -153,6 +152,14 @@
                                             <li><a href="">Shop</a></li>
                                             <li><a href="">FAQ</a></li>
                                             <li><a href="">My account</a></li>
+                                            {% if request.user.is_authenticated == True %}
+                                            <li>
+                                                <form action="{% url 'make-logout-url' %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit">Выйти</button>
+                                                </form>
+                                            </li>
+                                            {% endif %}
                                         </ul>
                                     </nav>
                                 </div>
@@ -164,7 +171,7 @@
                 <!-- Header Bottom Area End Here -->
                 <!-- Begin Mobile Menu Area -->
                 <div class="mobile-menu-area d-lg-none d-xl-none col-12">
-                    <div class="container"> 
+                    <div class="container">
                         <div class="row">
                             <div class="mobile-menu">
                             </div>
@@ -190,36 +197,41 @@
             <div class="page-section mb-60">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
-                            <!-- Login Form s-->
-                            <form action="#" >
-                                <div class="login-form">
-                                    <h4 class="login-title">Login</h4>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12 mb-20">
-                                            <label>Email Address*</label>
-                                            <input class="mb-0" type="email" placeholder="Email Address">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>Password</label>
-                                            <input class="mb-0" type="password" placeholder="Password">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                                <input type="checkbox" id="remember_me">
-                                                <label for="remember_me">Remember me</label>
+                        {% if logged_in == True %}
+                            <h1>Вы успешно залогинились!</h1>
+                        {% else %}
+                            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+                                <!-- Login Form s-->
+                                <form action="{% url 'make-login-url' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="login-form">
+                                        <h4 class="login-title">Login</h4>
+                                        <div class="row">
+                                            <div class="col-md-12 col-12 mb-20">
+                                                <label>Email Address*</label>
+                                                <input class="mb-0" type="email" name="email_address" placeholder="Email Address">
+                                            </div>
+                                            <div class="col-12 mb-20">
+                                                <label>Password</label>
+                                                <input class="mb-0" type="password" name="password" placeholder="Password">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
+                                                    <input type="checkbox" id="remember_me">
+                                                    <label for="remember_me">Remember me</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
+                                                <a href="#"> Forgotten pasward?</a>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="register-button mt-0">Login</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                            <a href="#"> Forgotten pasward?</a>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="register-button mt-0">Login</button>
-                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -356,49 +368,5 @@
             </div>
             <!-- Footer Area End Here -->
         </div>
-        <!-- Body Wrapper End Here -->
-        <!-- jQuery-V1.12.4 -->
-        <script src="js/vendor/jquery-1.12.4.min.js"></script>
-        <!-- Popper js -->
-        <script src="js/vendor/popper.min.js"></script>
-        <!-- Bootstrap V4.1.3 Fremwork js -->
-        <script src="js/bootstrap.min.js"></script>
-        <!-- Ajax Mail js -->
-        <script src="js/ajax-mail.js"></script>
-        <!-- Meanmenu js -->
-        <script src="js/jquery.meanmenu.min.js"></script>
-        <!-- Wow.min js -->
-        <script src="js/wow.min.js"></script>
-        <!-- Slick Carousel js -->
-        <script src="js/slick.min.js"></script>
-        <!-- Owl Carousel-2 js -->
-        <script src="js/owl.carousel.min.js"></script>
-        <!-- Magnific popup js -->
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <!-- Isotope js -->
-        <script src="js/isotope.pkgd.min.js"></script>
-        <!-- Imagesloaded js -->
-        <script src="js/imagesloaded.pkgd.min.js"></script>
-        <!-- Mixitup js -->
-        <script src="js/jquery.mixitup.min.js"></script>
-        <!-- Countdown -->
-        <script src="js/jquery.countdown.min.js"></script>
-        <!-- Counterup -->
-        <script src="js/jquery.counterup.min.js"></script>
-        <!-- Waypoints -->
-        <script src="js/waypoints.min.js"></script>
-        <!-- Barrating -->
-        <script src="js/jquery.barrating.min.js"></script>
-        <!-- Jquery-ui -->
-        <script src="js/jquery-ui.min.js"></script>
-        <!-- Venobox -->
-        <script src="js/venobox.min.js"></script>
-        <!-- Nice Select js -->
-        <script src="js/jquery.nice-select.min.js"></script>
-        <!-- ScrollUp js -->
-        <script src="js/scrollUp.min.js"></script>
-        <!-- Main/Activator js -->
-        <script src="js/main.js"></script>
     </body>
-
-{% endblock %}
+{%  endblock content %}
